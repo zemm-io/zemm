@@ -2,7 +2,7 @@ version: 1.0
 
 # Both are the default no need to define them
 indexes:
-  zemm: https://hub.zemm.org
+  zemm: https://hub.zemm.io
   docker: https://hub.docker.com
 
 lists:
