@@ -1,0 +1,26 @@
+---
+info:
+  name: ZSA Orch
+  version: 1.0.0
+
+packages:
+  - name: tuatzemm/orch-helm
+    version: "1.0.0"
+    description: "ZSA Orch for Helm"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://orch.tuatzemm.io"
+    repo: "https://github.com/tuatzemm/orch-helm.git"
+    provides:
+      - tuatzemm/orch
+  - name: tuatzemm/orch-docker
+    version: "1.0.0"
+    description: "ZSA Orch for Docker Compose"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://orch.tuatzemm.io"
+    repo: "https://github.com/tuatzemm/orch-docker-compose.git"
+    provides:
+      - tuatzemm/orch

@@ -1,0 +1,94 @@
+---
+info: 
+  name: tuatzemm packages
+  version: 1.0.0
+  description: "Packages dedicated to the tuatzemm Framework"
+  deprecation: "This list is deprecated please upgrade to 1.0.1"
+packages:
+  - name: tuatzemm/sql_pgsql
+    version: "1.0.0"
+    description: "PostgreSQL Database Manager"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/sql_pgsql.git"
+    dependencies: []
+  - name: tuatzemm/sql_mysql
+    version: "1.0.0"
+    description: "MySQL Database Manager"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/sql_mysql.git"
+    dependencies: []
+  - name: tuatzemm/auth
+    version: "1.0.0"
+    description: "Auth for tuatzemm"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/auth.git"
+    dependencies:
+      - package: "tuatzemm/settings"
+  - name: tuatzemm/auth_sql_pgsql
+    version: "1.0.0"
+    description: "PgSQL Auth Backend for tuatzemm/auth"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/auth_sql_pgsql.git"
+    provides:
+      - tuatzemm/auth_sql
+    dependencies:
+      - package: "tuatzemm/auth"
+      - package: "tuatzemm/sql_pgsql"
+      - package: "tuatzemm/settings"
+        default: "tuatzemm/settings_pgsql"
+
+  - name: tuatzemm/auth_sql_mysql
+    version: "1.0.0"
+    description: "MySQL Auth Backend for tuatzemm/auth"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/auth_sql_mysql.git"
+    provides:
+      - tuatzemm/auth_sql
+    dependencies:
+      - package: "tuatzemm/auth"
+      - package: "tuatzemm/sql_mysql"
+      - package: "tuatzemm/settings"
+        default: "tuatzemm/settings_mysql"
+
+
+  - name: tuatzemm/settings_pgsql
+    version: "1.0.0"
+    description: "PostgreSQL Settings Backend"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/settings_pgsql.git"
+    provides:
+      - tuatzemm/settings
+    dependencies:
+      - package: tuatzemm/auth
+      - package: tuatzemm/sql_pgsql
+
+  - name: tuatzemm/settings_mysql
+    version: "1.0.0"
+    description: "MySQL Settings Backend"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/settings_mysql.git"
+    provides:
+      - tuatzemm/settings
+    dependencies:
+      - package: tuatzemm/auth

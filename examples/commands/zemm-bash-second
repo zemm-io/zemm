@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo "Bash second says $@"
+exit 144

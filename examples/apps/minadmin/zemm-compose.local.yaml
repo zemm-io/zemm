@@ -1,0 +1,18 @@
+clear:
+  additional_lists: False
+  install: False
+
+repositories:
+  zemm: ../../repo/
+  docker: https://registry.fk.jochum.dev
+
+lists:
+  # Overwrite Package abac_pgsql
+  additional:
+    - package: tuatzemm/abac_pgsql@6.6.6
+
+settings:
+  # Set env var for package
+  tuatzemm/orch-docker:
+    environment:
+      ZSA_ORCH_PORT: 4322

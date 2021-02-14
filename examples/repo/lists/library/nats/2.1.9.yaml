@@ -1,0 +1,14 @@
+---
+info:
+  name: NATS is an open-source, high-performance, cloud native messaging system.
+  version: 2.1.9
+
+packages:
+  - name: library/nats
+    version: "2.1.9"
+    description: "NATS is an open-source, high-performance, cloud native messaging system."
+    type: "service"
+    author: "nats.io"
+    packager: "The MinAdmin Authors"
+    license: "Apache-2.0"
+    homepage: "https://nats.io"

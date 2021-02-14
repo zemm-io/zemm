@@ -1,0 +1,34 @@
+---
+info:
+  name: tuatzemm packages
+  version: 1.0.1
+  depends:
+  - list: "tuatzemm/suite/1.0.0"
+packages:
+  - name: tuatzemm/abac_pgsql
+    version: "1.0.0"
+    description: "PostgreSQL ABAC Backend"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/abac_pgsql.git"
+    provides:
+      - tuatzemm/abac
+    dependencies:
+      - package: "tuatzemm/sql_pgsql"
+      - package: "tuatzemm/settings"
+        default: "tuatzemm/settings_pgsql"
+  - name: tuatzemm/abac_mysql
+    version: "1.0.0"
+    description: "MySQL ABAC Backend"
+    type: "service"
+    author: "The tuatzemm Authors"
+    license: "MIT"
+    homepage: "https://tuatzemm.io"
+    repo: "https://github.com/tuatzemm/abac_mysql.git"
+    provides:
+      - tuatzemm/abac
+    dependencies:
+      - package: "tuatzemm/settings"
+        default: "tuatzemm/settings_mysql"

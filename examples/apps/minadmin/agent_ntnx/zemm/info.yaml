@@ -1,0 +1,11 @@
+name: minadmin/agent_ntnx
+version: 1.0.0
+description: "Nutanix Agent for MinAdmin"
+type: service
+author: The MinAdmin Authors
+license: MIT
+homepage: https://minadmin.io
+repo: https://git.webmeisterei.com/minadmin/agent_ntnx.git
+provides: []
+dependencies:
+  - package: tuatzemm/abac

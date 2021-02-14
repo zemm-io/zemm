@@ -1,0 +1,23 @@
+---
+info:
+  name: MinAdmin packages
+  version: 1.0.0
+  dependencies:
+  - "https://packages.tuatzemm.io/repos/tuatzemm/1.0"
+packages:
+  minadmin/minadmin_agent_zimbra:
+    version: "1.0.0"
+    description: "Minadmin Zimbra Agent"
+    type: "service"
+    author: "The MinAdmin Authors"
+    license: "MIT"
+    homepage: "https://minadmin.io"
+    repo: "https://git.webmeisterei.com/minadmin/agent_zimbra.git"
+  minadmin/minadmin_agent_ntnx:
+    version: "1.0.0"
+    description: "Minadmin Nutanix Agent"
+    type: "service"
+    author: "The MinAdmin Authors"
+    license: "MIT"
+    homepage: "https://minadmin.io"
+    repo: "https://git.webmeisterei.com/minadmin/agent_ntnx.git"

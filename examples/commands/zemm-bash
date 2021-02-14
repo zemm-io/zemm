@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+MY_PATH="`dirname \"$BASH_SOURCE\"`"    # relative
+MY_PATH="`( cd \"$MY_PATH\" && pwd )`"  # absolutized and normalized
+if [ -z "$MY_PATH" ] ; then
+  # error; for some reason, the path is not accessible
+  # to the script (e.g. permissions re-evaled after suid)
+  exit 1  # fail
+fi
+
+print_usage() {
+    cat << EOF
+Usage: 
+  zemm bash [command]
+
+Available Commands:
+  env           Print environment
+  help          Prints this help
+  ls|list       Lists files in the \$ZEMM_PWD
+  second        Showcase sub plugins
+
+EOF
+}
+
+if [[ $# -le 0 ]]; then
+    print_usage;
+    exit 1;
+fi
+
+case $1 in
+    ls|list)
+    shift
+    ls -la $ZEMM_PWD
+    ;;
+    env)
+    shift
+    env;
+    ;;
+    second)
+    shift
+    ${MY_PATH}/zemm-bash-second $@
+    exit $?
+    ;;
+    help)
+    shift
+    print_usage;
+    ;;
+    *)    # unknown option
+    print_usage;
+    echo "Unknow Option \"$1\", exit 1"
+    exit 1
+    ;;
+esac
+
+exit 0
