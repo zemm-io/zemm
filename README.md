@@ -1,8 +1,19 @@
 # zemm
 
-I'm the zemm commandline tool.
+Zemm - the dependency Management Tool for docker
 
-## The compose File
+## The Problem
+
+### Unable to run additional plugins during runtime
+
+While creating "the next big thing" a microcontainer application which should be as extensible as some PHP Frameworks in the wild,
+the creator of zemm faced the problem that there are no tools which allow you to start microservice during runtime.
+
+### No Tools for Lists of compatible Software
+
+Another problem he faced was that there are no tools that create Lists of Software which is compatible with each other, like "generic" Pluginstores.
+
+### Example compose File
 
 zemm-compose.yaml
 
@@ -27,7 +38,7 @@ install:
     overlay: true
 ```
 
-## An example local File
+## An example local override File
 
 zemm-compose.local.yaml
 
@@ -65,3 +76,15 @@ Creates a docker-compose.yaml and runs "docker-compose up -d"
 ### zemm docker ps
 
 - Gives a list of running containers
+
+## Authors
+
+René Jochum - rene@jochum.dev
+
+## Maintainer
+
+René Jochum - rene@jochum.dev
+
+## License
+
+Apache-2.0 License
