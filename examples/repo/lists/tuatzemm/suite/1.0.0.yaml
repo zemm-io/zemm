@@ -14,6 +14,8 @@ packages:
     homepage: "https://tuatzemm.io"
     repo: "https://github.com/tuatzemm/sql_pgsql.git"
     dependencies: []
+    recommends:
+      - package: library/postgres
   - name: tuatzemm/sql_mysql
     version: "1.0.0"
     description: "MySQL Database Manager"
@@ -23,6 +25,8 @@ packages:
     homepage: "https://tuatzemm.io"
     repo: "https://github.com/tuatzemm/sql_mysql.git"
     dependencies: []
+    recommends:
+      - package: library/mysql
   - name: tuatzemm/auth
     version: "1.0.0"
     description: "Auth for tuatzemm"

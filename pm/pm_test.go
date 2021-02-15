@@ -93,21 +93,24 @@ func TestDefaultPMAddMinadminRepository(t *testing.T) {
 	for i, r := range repos {
 		keys[i] = r.GetList()
 	}
-	if len(repos) != 4 {
+	if len(repos) != 5 {
 		t.Error(fmt.Errorf("Invalid number of repos: %d, repos: %v", len(repos), keys))
 		return
 	}
 	if repos[0].GetList() != "library/nats/2.1.9" {
 		t.Error(fmt.Errorf("Invalid first repo: %s, repos: %v", repos[0].GetList(), keys))
 	}
-	if repos[1].GetList() != "tuatzemm/suite/1.0.0" {
-		t.Error(fmt.Errorf("Invalid first repo: %s, repos: %v", repos[0].GetList(), keys))
+	if repos[1].GetList() != "library/postgres/13.2" {
+		t.Error(fmt.Errorf("Invalid first repo: %s, repos: %v", repos[1].GetList(), keys))
 	}
-	if repos[2].GetList() != "tuatzemm/suite/1.0.1" {
-		t.Error(fmt.Errorf("Invalid second repo: %s, repos %v", repos[1].GetList(), keys))
+	if repos[2].GetList() != "tuatzemm/suite/1.0.0" {
+		t.Error(fmt.Errorf("Invalid first repo: %s, repos: %v", repos[2].GetList(), keys))
 	}
-	if repos[3].GetList() != "minadmin/minadmin/1.0.0" {
-		t.Error(fmt.Errorf("Invalid third repo: %s, repos: %v", repos[2].GetList(), keys))
+	if repos[3].GetList() != "tuatzemm/suite/1.0.1" {
+		t.Error(fmt.Errorf("Invalid second repo: %s, repos %v", repos[3].GetList(), keys))
+	}
+	if repos[4].GetList() != "minadmin/minadmin/1.0.0" {
+		t.Error(fmt.Errorf("Invalid third repo: %s, repos: %v", repos[4].GetList(), keys))
 	}
 }
 
@@ -127,7 +130,7 @@ func TestDependenciesOfMinadmin(t *testing.T) {
 		t.Error(err)
 	}
 
-	pkgs, err := pm.GetDependencies([]string{"minadmin/minadmin_pgsql"})
+	pkgs, err := pm.GetDependencies([]string{"minadmin/minadmin_pgsql"}, true)
 	err = filterPrintWarning(err)
 	if err != nil {
 		t.Error(err)
@@ -143,6 +146,7 @@ func TestDependenciesOfMinadmin(t *testing.T) {
 		"tuatzemm/auth_sql_pgsql",
 		"tuatzemm/abac_pgsql",
 		"library/nats",
+		"library/postgres",
 		"tuatzemm/auth",
 		"tuatzemm/sql_pgsql",
 	}

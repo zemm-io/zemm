@@ -1,0 +1,18 @@
+# Zemm docker.yaml
+#
+# ${VERSION} will be replaced by the version of the package
+
+services:
+  minadmin-agent_ntnx_pgsql:
+    image: minadmin/minadmin-agent_ntnx_pgsql:${VERSION}
+    command: --registry nats --registry_address nats:4222 --transport nats --transport_address nats:4222 --broker nats --broker_address nats:4222
+    zemm_depends_on:
+      - package: library/nats
+      - package: library/postgres
+    zemm_links:
+      - package: library/nats
+        as: nats
+    environment:
+      - MIGRATIONS_TABLE=minadmin-agent_ntnx-migrations
+    networks:
+      backend: {}

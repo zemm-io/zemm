@@ -41,6 +41,7 @@ type RPackage struct {
 	Repo         string         `json:"repo",yaml:"repo"`
 	Provides     []string       `json:"provides",yaml:"provides"`
 	Dependencies []RPDependency `json:"dependencies",yaml:"dependencies"`
+	Recommends   []RPDependency `json:"recommends",yaml:"recommends"`
 }
 
 type Repository struct {

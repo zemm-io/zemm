@@ -1,0 +1,7 @@
+services:
+  nats:
+    # ${VERSION} will be replaced with the actual VERSION
+    image: library/nats:${VERSION}
+    command: nats
+    networks:
+      backend: {}

@@ -1,0 +1,18 @@
+name: minadmin/minadmin_pgsql
+# will be defined during upload
+# version: 1.0.0
+description: "MinAdmin on PostgreSQL"
+type: service
+author: The MinAdmin Authors
+license: Apache-2.0
+homepage: https://minadmin.io
+repo: https://github.com/minadmin/minadmin_pgsql.git
+provides:
+  - minadmin/minadmin
+  - tuatzemm/settings
+dependencies:
+  - package: tuatzemm/auth_sql_pgsql
+  - package: tuatzemm/abac_pgsql
+  - package: library/nats
+recommends:
+  - package: library/postgres

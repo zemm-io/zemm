@@ -4,6 +4,7 @@ info:
   version: 1.0.0
   depends:
   - list: "tuatzemm/suite/1.0.1"
+  - list: "library/postgres/13.2"
   - list: "library/nats/2.1.9"
 
 packages:
@@ -18,12 +19,9 @@ packages:
       - minadmin/minadmin
       - tuatzemm/settings
     dependencies:
-      - package: minadmin/minadmin
       - package: tuatzemm/auth_sql_pgsql
       - package: tuatzemm/abac_pgsql
       - package: library/nats
-    recommends:
-      - package: library/postgres
 
   - name: minadmin/minadmin_mysql
     version: "1.0.0"
@@ -40,5 +38,3 @@ packages:
       - package: tuatzemm/abac
         default: tuatzemm/abac_mysql
       - package: library/nats
-    recommends:
-      - package: library/mysql

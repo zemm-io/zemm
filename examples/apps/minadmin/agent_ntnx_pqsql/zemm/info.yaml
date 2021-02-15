@@ -1,0 +1,12 @@
+name: minadmin/agent_ntnx_pgsql
+# will be defined during upload
+# version: 1.0.0
+description: "PostgreSQL Nutanix Agent for MinAdmin"
+type: service
+author: The MinAdmin Authors
+license: Apache-2.0
+homepage: https://minadmin.io
+repo: https://github.com/minadmin/agent_ntnx_pgsql.git
+provides: []
+dependencies:
+  - package: minadmin/minadmin_pgsql

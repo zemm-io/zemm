@@ -12,7 +12,7 @@ packages:
     author: "The MinAdmin Authors"
     license: "MIT"
     homepage: "https://minadmin.io"
-    repo: "https://git.webmeisterei.com/minadmin/agent_zimbra.git"
+    repo: "https://github.com/minadmin/agent_zimbra.git"
   minadmin/minadmin_agent_ntnx:
     version: "1.0.0"
     description: "Minadmin Nutanix Agent"
@@ -20,4 +20,4 @@ packages:
     author: "The MinAdmin Authors"
     license: "MIT"
     homepage: "https://minadmin.io"
-    repo: "https://git.webmeisterei.com/minadmin/agent_ntnx.git"
+    repo: "https://github.com/minadmin/agent_ntnx.git"

@@ -124,15 +124,17 @@ func (pm *PackageManager) Validate() error {
 		}
 	}
 
-	// Check depends on self
+	// Check depends on self or provides self
 	for _, p := range pm.packages {
 		for _, d := range p.Dependencies {
 			if d.Package == p.Name || d.Default == p.Name {
+				// depends self
 				rErr = multierror.Append(rErr, fmt.Errorf("%v: Package \"%s\" depends on itself", p.Repository.GetList(), p.Name))
 			}
 			for _, pn := range p.Provides {
-				if pn == p.Name {
-					rErr = multierror.Append(rErr, fmt.Errorf("%v: Package \"%s\" depends on/provides itself", p.Repository.GetList(), p.Name))
+				if d.Package == pn || d.Default == pn {
+					// provides self
+					rErr = multierror.Append(rErr, fmt.Errorf("%v: Package \"%s\" depends on \"%s\" and provides \"%s\"", p.Repository.GetList(), p.Name, pn, pn))
 				}
 			}
 		}
@@ -141,11 +143,21 @@ func (pm *PackageManager) Validate() error {
 	return rErr.ErrorOrNil()
 }
 
-func (pm *PackageManager) getDependencies(inPackages []*RPackage, kpn map[string]int, rErr *multierror.Error) ([]*RPackage, map[string]int, *multierror.Error) {
+func (pm *PackageManager) getDependencies(inPackages []*RPackage, kpn map[string]int, rErr *multierror.Error, recommends bool) ([]*RPackage, map[string]int, *multierror.Error) {
 	myPkgs := []*RPackage{}
 
 	for _, p := range inPackages {
+		all := []RPDependency{}
 		for _, d := range p.Dependencies {
+			all = append(all, d)
+		}
+		if recommends {
+			for _, d := range p.Recommends {
+				all = append(all, d)
+			}
+		}
+
+		for _, d := range all {
 			// Check if already known
 			if _, ok := kpn[d.Package]; ok {
 				// Package or Provider already known
@@ -164,7 +176,7 @@ func (pm *PackageManager) getDependencies(inPackages []*RPackage, kpn map[string
 					// Check if default is a known package
 					dp, ok := pm.packages[d.Default]
 					if !ok {
-						rErr = multierror.Append(rErr, fmt.Errorf("Default package %v is unknown to me", d.Default))
+						rErr = multierror.Append(rErr, fmt.Errorf("Unknown default package \"%s\"", d.Default))
 						continue
 					}
 
@@ -185,7 +197,7 @@ func (pm *PackageManager) getDependencies(inPackages []*RPackage, kpn map[string
 			// Check if a known package
 			dp, ok := pm.packages[d.Package]
 			if !ok {
-				rErr = multierror.Append(rErr, fmt.Errorf("Package %v is unknown to me", d.Package))
+				rErr = multierror.Append(rErr, fmt.Errorf("Unknown package \"%s\"", d.Package))
 				continue
 			}
 			// We know the package add it
@@ -200,7 +212,7 @@ func (pm *PackageManager) getDependencies(inPackages []*RPackage, kpn map[string
 	}
 
 	if len(myPkgs) > 0 {
-		myPkgs, kpn, rErr = pm.getDependencies(myPkgs, kpn, rErr)
+		myPkgs, kpn, rErr = pm.getDependencies(myPkgs, kpn, rErr, recommends)
 	}
 
 	inPackages = append(inPackages, myPkgs...)
@@ -208,7 +220,7 @@ func (pm *PackageManager) getDependencies(inPackages []*RPackage, kpn map[string
 	return inPackages, kpn, rErr
 }
 
-func (pm *PackageManager) GetDependencies(from []string) ([]*RPackage, *multierror.Error) {
+func (pm *PackageManager) GetDependencies(from []string, recommends bool) ([]*RPackage, *multierror.Error) {
 	resultPackages := []*RPackage{}
 	names := make(map[string]int)
 	resultErr := &multierror.Error{}
@@ -216,12 +228,12 @@ func (pm *PackageManager) GetDependencies(from []string) ([]*RPackage, *multierr
 	for _, myDep := range from {
 		p, ok := pm.packages[myDep]
 		if !ok {
-			resultErr = multierror.Append(resultErr, fmt.Errorf("Package %v is unknown to me", myDep))
+			resultErr = multierror.Append(resultErr, fmt.Errorf("Unknown package \"%s\"", myDep))
 			continue
 		}
 
 		if _, ok := names[p.Name]; ok {
-			resultErr = multierror.Append(resultErr, warning.Wrap(fmt.Errorf("Package %v is already known", p.Name)))
+			resultErr = multierror.Append(resultErr, warning.Wrap(fmt.Errorf("Theres a duplicated reference to package \"%s\"", p.Name)))
 			continue
 		}
 		names[p.Name] = 0
@@ -242,7 +254,7 @@ func (pm *PackageManager) GetDependencies(from []string) ([]*RPackage, *multierr
 		resultPackages = append(resultPackages, p)
 	}
 
-	resultPackages, names, resultErr = pm.getDependencies(resultPackages, names, resultErr)
+	resultPackages, names, resultErr = pm.getDependencies(resultPackages, names, resultErr, recommends)
 
 	return resultPackages, resultErr
 }

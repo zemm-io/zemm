@@ -1,0 +1,14 @@
+---
+info:
+  name: The PostgreSQL object-relational database system provides reliability and data integrity.
+  version: 13.2
+
+packages:
+  - name: library/postgres
+    version: "13.2"
+    description: "The PostgreSQL object-relational database system provides reliability and data integrity."
+    type: "service"
+    author: "The PostgreSQL Global Development Group"
+    packager: "The MinAdmin Authors"
+    license: "postgresql"
+    homepage: "https://www.postgresql.org"

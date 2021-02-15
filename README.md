@@ -2,7 +2,7 @@
 
 Zemm - the Dependency Management Tool for docker
 
-## The problem's it solves
+## The problem
 
 ### Unable to run additional plugins during runtime
 
@@ -14,6 +14,12 @@ the creator of zemm faced the problem that there are no tools which allow you to
 Another problem he faced was that there are no tools that create Lists of Software which is compatible with each other, like "generic" Pluginstores.
 
 ## The solution
+
+### Install additional plugins/microservices during runtime
+
+There will be a container that runs zemm and has an api for other microservices to command it.
+
+### Installable lists of compatible Software
 
 Developers will have the ability to define lists of containers with theier configuration in zemm and they also will have a solution to define "supported" plugins.
 
@@ -44,7 +50,7 @@ install:
 
 ## An example local override File
 
-zemm-compose.local.yaml
+local.zemm-compose.yaml
 
 ```yaml
 version: 1.0
@@ -83,11 +89,19 @@ Creates a docker-compose.yaml and runs "docker-compose up -d"
 
 ### zemm update
 
-Download the newest lists and packages from zemm.io
+Download the newest lists and packages of the same version from zemm.io
 
 ### zemm upgrade [-q] [-y]
 
 Check if there are newer version's of the lists available and upgrade after confirmation
+
+### zemm publish [-l hub.zemm.org]
+
+Publish your package on a zemm server
+
+## The name
+
+The name Zemm comes from the Vorarlberger dialect and means "together".
 
 ## Authors
 
