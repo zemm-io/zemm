@@ -3,6 +3,7 @@ package common
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -10,6 +11,43 @@ import (
 	"path"
 
 	"gopkg.in/yaml.v2"
+)
+
+const (
+	OS_READ        = 04
+	OS_WRITE       = 02
+	OS_EX          = 01
+	OS_USER_SHIFT  = 6
+	OS_GROUP_SHIFT = 3
+	OS_OTH_SHIFT   = 0
+
+	OS_USER_R   = OS_READ << OS_USER_SHIFT
+	OS_USER_RX  = OS_READ | OS_EX
+	OS_USER_W   = OS_WRITE << OS_USER_SHIFT
+	OS_USER_X   = OS_EX << OS_USER_SHIFT
+	OS_USER_RW  = OS_USER_R | OS_USER_W
+	OS_USER_RWX = OS_USER_RW | OS_USER_X
+
+	OS_GROUP_R   = OS_READ << OS_GROUP_SHIFT
+	OS_GROUP_RX  = OS_READ | OS_EX
+	OS_GROUP_W   = OS_WRITE << OS_GROUP_SHIFT
+	OS_GROUP_X   = OS_EX << OS_GROUP_SHIFT
+	OS_GROUP_RW  = OS_GROUP_R | OS_GROUP_W
+	OS_GROUP_RWX = OS_GROUP_RW | OS_GROUP_X
+
+	OS_OTH_R   = OS_READ << OS_OTH_SHIFT
+	OS_OTH_RX  = OS_READ | OS_EX
+	OS_OTH_W   = OS_WRITE << OS_OTH_SHIFT
+	OS_OTH_X   = OS_EX << OS_OTH_SHIFT
+	OS_OTH_RW  = OS_OTH_R | OS_OTH_W
+	OS_OTH_RWX = OS_OTH_RW | OS_OTH_X
+
+	OS_ALL_R   = OS_USER_R | OS_GROUP_R | OS_OTH_R
+	OS_ALL_RX  = OS_USER_RX | OS_GROUP_RX | OS_OTH_RX
+	OS_ALL_W   = OS_USER_W | OS_GROUP_W | OS_OTH_W
+	OS_ALL_X   = OS_USER_X | OS_GROUP_X | OS_OTH_X
+	OS_ALL_RW  = OS_ALL_R | OS_ALL_W
+	OS_ALL_RWX = OS_ALL_RW | OS_GROUP_X
 )
 
 // URLIsValidAndHTTP check if the given string is something to download
@@ -138,4 +176,56 @@ func FileExists(filename string) bool {
 		return false
 	}
 	return !info.IsDir()
+}
+
+// DirExists if the given directory exists and is a directory
+func DirExists(directory string) bool {
+	info, err := os.Stat(directory)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return info.IsDir()
+}
+
+func CopyFile(src string, destination string, makedirs bool) error {
+	if !FileExists(src) {
+		return fmt.Errorf("Copy: source file '%s' doesn't exists", src)
+	}
+
+	td := path.Dir(destination)
+	if makedirs == false && !DirExists(td) {
+		return fmt.Errorf("Copy: destination directory '%s' doesn't exists", td)
+	} else if makedirs {
+		err := os.MkdirAll(td, os.ModeDir|(OS_USER_RWX|OS_GROUP_RX|OS_OTH_RX))
+		if err != nil {
+			return err
+		}
+	}
+
+	srcFp, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	dstFp, err := os.Create(destination)
+	if err != nil {
+		return err
+	}
+	defer dstFp.Close()
+
+	buf := make([]byte, 1000000)
+	for {
+		n, err := srcFp.Read(buf)
+		if err != nil && err != io.EOF {
+			return err
+		}
+		if n == 0 {
+			break
+		}
+
+		if _, err := dstFp.Write(buf[:n]); err != nil {
+			return err
+		}
+	}
+
+	return err
 }

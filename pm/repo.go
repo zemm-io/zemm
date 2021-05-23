@@ -11,50 +11,50 @@ import (
 )
 
 type ListOrPackage struct {
-	List    string `json:"list,omitempty",yaml:"list,omitempty"`
-	Package string `json:"package,omitempty",yaml:"package,omitempty"`
+	List    string `json:"list,omitempty" yaml:"list,omitempty"`
+	Package string `json:"package,omitempty" yaml:"package,omitempty"`
 }
 
 type RInfo struct {
-	Name        string          `json:"name",yaml:"name"`
-	Version     string          `json:"version",yaml:"version"`
-	Description string          `json:"description",yaml:"description"`
-	Deprecation string          `json:"deprecation,omitempty",yaml:"deprecation,omitempty"`
-	Depends     []ListOrPackage `json:"depends,omitempty",yaml:"depends,omitempty"`
-	Supports    []ListOrPackage `json:"supports,omitempty",yaml:"supports,omitempty"`
+	Name        string          `json:"name" yaml:"name"`
+	Version     string          `json:"version" yaml:"version"`
+	Description string          `json:"description" yaml:"description"`
+	Deprecation string          `json:"deprecation,omitempty" yaml:"deprecation,omitempty"`
+	Depends     []ListOrPackage `json:"depends,omitempty" yaml:"depends,omitempty"`
+	Supports    []ListOrPackage `json:"supports,omitempty" yaml:"supports,omitempty"`
 }
 
 type RPDependency struct {
-	Package string `json:"package",yaml:"package"`
-	Default string `json:"default,omitempty",yaml:"default,omitempty"`
+	Package string `json:"package" yaml:"package"`
+	Default string `json:"default,omitempty" yaml:"default,omitempty"`
 }
 
 type RPackage struct {
-	Repository   *Repository    `json:"-",yaml:"-"`
-	Name         string         `json:"name",yaml:"name"`
-	Deprecation  string         `json:"deprecation",yaml:"deprecation"`
-	Description  string         `json:"description",yaml:"description"`
-	Author       string         `json:"author",yaml:"author"`
-	Packager     string         `json:"packager,omitempty",yaml:"packager,omitempty"`
-	License      string         `json:"license",yaml:"license"`
-	Homepage     string         `json:"homepage",yaml:"homepage"`
-	Repo         string         `json:"repo",yaml:"repo"`
-	Provides     []string       `json:"provides",yaml:"provides"`
-	Dependencies []RPDependency `json:"dependencies",yaml:"dependencies"`
-	Recommends   []RPDependency `json:"recommends",yaml:"recommends"`
+	Repository   *Repository    `json:"-" yaml:"-"`
+	Name         string         `json:"name" yaml:"name"`
+	Deprecation  string         `json:"deprecation" yaml:"deprecation"`
+	Description  string         `json:"description" yaml:"description"`
+	Author       string         `json:"author" yaml:"author"`
+	Packager     string         `json:"packager,omitempty" yaml:"packager,omitempty"`
+	License      string         `json:"license" yaml:"license"`
+	Homepage     string         `json:"homepage" yaml:"homepage"`
+	Repo         string         `json:"repo" yaml:"repo"`
+	Provides     []string       `json:"provides" yaml:"provides"`
+	Dependencies []RPDependency `json:"dependencies" yaml:"dependencies"`
+	Recommends   []RPDependency `json:"recommends" yaml:"recommends"`
 }
 
 type Repository struct {
-	index        string     `json:"-",yaml:"-"`
-	list         string     `json:"-",yaml:"-"`
-	isDependency bool       `json:"-",yaml:"-"`
-	Info         RInfo      `json:"info",yaml:"info"`
-	Packages     []RPackage `json:"packages",yaml:"packages"`
+	index        string     `json:"-" yaml:"-"`
+	list         string     `json:"-" yaml:"-"`
+	isDependency bool       `json:"-" yaml:"-"`
+	Info         RInfo      `json:"info" yaml:"info"`
+	Packages     []RPackage `json:"packages" yaml:"packages"`
 }
 
 func NewRepository(index, list string) (*Repository, error) {
 	r := &Repository{index: index, list: list, isDependency: false}
-	err := r.Update()
+	err := r.Fetch()
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func NewRepository(index, list string) (*Repository, error) {
 	return r, nil
 }
 
-func (r *Repository) Update() error {
+func (r *Repository) Fetch() error {
 	iu, err := r.GetFullURL()
 	if err != nil {
 		return err

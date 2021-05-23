@@ -1,5 +1,6 @@
 info:
   name: library/nats
+  # Will be set on upload
   version: 2.1.9
   description: "NATS is an open-source, high-performance, cloud native messaging system."
   type: service
@@ -8,12 +9,5 @@ info:
   homepage: https://nats.io
   repo: https://github.com/nats-io/nats-server
 
-docker:
-  image: nats:{{ VERSION }}
-  command: nats {{ NATS_ARGS }}
-  {% if NATS_MAP_PORTS == "true" %}
-  ports:
-  - "4222:4222" 
-  - "6222:6222"
-  - "8222:8222"
-  {% endif %}
+files:
+  - file: zemmpkg/compose.yaml

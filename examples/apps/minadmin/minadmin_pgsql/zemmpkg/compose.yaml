@@ -1,7 +1,3 @@
-# Zemm docker.yaml
-#
-# ${VERSION} will be replaced by the version of the package
-
 services:
   minadmin-minadmin_pgsql:
     image: minadmin/minadmin_pgsql:${VERSION}
@@ -13,6 +9,6 @@ services:
       - package: library/nats
         as: nats
     environment:
-      - MIGRATIONS_TABLE=minadmin-minadmin-migrations
+      - MIGRATIONS_TABLE: minadmin-minadmin-migrations
     networks:
       backend: {}

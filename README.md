@@ -4,6 +4,11 @@ Zemm - the Dependency Management Tool for docker
 
 ## The problem
 
+### Long list of services that need to work together
+
+With microservices if you often have long lists of containers that should work together, the easiest way to distribute that is by using a docker-compose.yaml.
+Now people gonna change your yaml for theier needs, how to upgrade that?
+
 ### Unable to run additional plugins during runtime
 
 While creating "the next big thing" a microcontainer application which should be as extensible as some PHP Frameworks in the wild,
@@ -15,17 +20,17 @@ Another problem he faced was that there are no tools that create Lists of Softwa
 
 ## The solution
 
+### Installable lists of compatible Software
+
+Developers will have the ability to define lists of containers on our/own Servers with theier configuration in zemm and they also will have a solution to define "supported" plugins.
+
 ### Install additional plugins/microservices during runtime
 
 There will be a container that runs zemm and has an api for other microservices to command it.
 
-### Installable lists of compatible Software
+### Example zemm File
 
-Developers will have the ability to define lists of containers with theier configuration in zemm and they also will have a solution to define "supported" plugins.
-
-### Example compose File
-
-zemm-compose.yaml
+zemm.yaml
 
 ```yaml
 version: 1.0
@@ -50,7 +55,7 @@ install:
 
 ## An example local override File
 
-local.zemm-compose.yaml
+local.zemm.yaml
 
 ```yaml
 version: 1.0
@@ -71,19 +76,35 @@ lists:
 
 ## Commands
 
+### zemm registry list
+
+List all available registries.
+
+### zemm registry add
+
+Add (another) registry.
+
+### zemm registry remove
+
+Remove a registry.
+
+### zemm publish [registry]
+
+Publish your package (the current directory containing a "zemmpkg.yaml") to the registry.
+
 ### zemm install
 
 Will download all lists and theier dependencies, create a list of packages to install and download them.
 
-### zemm docker up -d
+### zemm compose up -d
 
 Creates a docker-compose.yaml and runs "docker-compose up -d"
 
-### zemm docker down
+### zemm compose down
 
 - Reverse, means App first then deps of the app then deps of the deps :)
 
-### zemm docker ps
+### zemm compose ps
 
 - Gives a list of running containers
 
